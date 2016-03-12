@@ -1,0 +1,5 @@
+.panel.panel-warning
+  .panel-heading.text-center Recent Break-ins
+  .panel-body
+    .row(ng-repeat="breakin in recentBreakIns")
+      .col-md-12 {{breakin.location}} {{breakin.time}}
