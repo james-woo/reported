@@ -68,7 +68,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         var popup = L.popup();
 
         function onMapClick(e) {
-          console.log("You clicked the map at " + e.latlng.toString())
+          console.log("You clicked the map at " + e.latlng.toString());
           var myContent = '<form action="/submitdata/'+e.latlng.lat.toString()+'/'+e.latlng.lng.toString()+'" method="get">\
              <div> Make a report here? </div>\
              <div class="button">\
@@ -90,48 +90,45 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
 
 .controller('formCtrl', function($scope, $routeParams, $window, DataManager) {
   
-  $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
- 
-  var json = {
+    $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
+
+    var json = {
      "tableName":"mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points",
      "returnResults":true,
      "append":true,
      "clientId":"j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
      "password":"fLbpuA3vTZHubZqt"
-  }
+    };
 
-  $scope.submitComment = function () {
-    
+    $scope.submitComment = function () {
     $scope.comment.date = new Date().toISOString();
-    $scope.comment.latitude = $routeParams.lat; 
-    $scope.comment.longitude = $routeParams.lng; 
-    
-      var request = [
-             {"name":"user","value":$scope.comment.user},
-             {"name":"email","value":$scope.comment.email},
-             {"name":"date","value":$scope.comment.date},
-             {"name":"message","value":$scope.comment.message},
-             {"name":"latitude","value":$scope.comment.latitude},
-             {"name":"longitude","value":$scope.comment.longitude},
-             {"name":"latlong","value":"POINT(" + parseFloat($scope.comment.longitude) + " " + parseFloat($scope.comment.latitude) +")"}
-           ]
-      json.rows = [request];
-      
-      DataManager.uploadTableData(json)
-        .then(
-          function(success){
-            console.log(success);
-            $window.localStorage['last'] = JSON.stringify($scope.comment); 
-            $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
-            window.location.href = "/"; 
-          }, 
-          function(fail){
-            console.log(fail);
-          }
-        );
-      
-      
-		}
+    $scope.comment.latitude = $routeParams.lat;
+    $scope.comment.longitude = $routeParams.lng;
+
+    var request = [
+     {"name":"user","value":$scope.comment.user},
+     {"name":"email","value":$scope.comment.email},
+     {"name":"date","value":$scope.comment.date},
+     {"name":"message","value":$scope.comment.message},
+     {"name":"latitude","value":$scope.comment.latitude},
+     {"name":"longitude","value":$scope.comment.longitude},
+     {"name":"latlong","value":"POINT(" + parseFloat($scope.comment.longitude) + " " + parseFloat($scope.comment.latitude) +")"}
+    ];
+    json.rows = [request];
+
+    DataManager.uploadTableData(json)
+      .then(
+        function(success){
+          console.log(success);
+          $window.localStorage['last'] = JSON.stringify($scope.comment);
+          $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
+          window.location.href = "/";
+        },
+        function(fail){
+          console.log(fail);
+        }
+      );
+  }
 })
 
 ;

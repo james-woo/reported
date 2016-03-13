@@ -1,12 +1,13 @@
-form(ng-submit='submitComment()')
-  div
-    label(for='user') Name:
-    input#user(type='text', ng-model='comment.user')
-  div
-    label(for='email') E-mail:
-    input#email(type='email', ng-model='comment.email')
-  div
-    label(for='message') Message:
-    textarea#msg(ng-model='comment.message')
-  .button
-    button(type='submit') Send
+.container
+  form(ng-submit='submitComment()')
+    fieldset.form-group
+      label(for='user') Name
+      input#user.form-control(type='text', ng-model='comment.user', placeholder='Enter your name')
+    fieldset.form-group
+      label(for='email') Email address
+      input#email.form-control(type='email', ng-model='comment.email', placeholder='Enter your email')
+      small.text-muted We'll never share your email with anyone else.
+    fieldset.form-group
+      label(for='message') Message
+      input#message.form-control(type='text', ng-model='comment.message', placeholder='Enter a description of the event')
+    button.btn.btn-primary(type='submit') Submit
