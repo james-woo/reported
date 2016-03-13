@@ -1,4 +1,4 @@
-angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
+angular.module('app').controller('reMainCtrl', function($scope, $window, DataManager) {
     $scope.recentBreakIns = [
         { location: 'Shelbourne Corridor', time: 'January' }
     ];
@@ -33,10 +33,15 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
       };
      
       var setMarkers = function(mymap){
-        // How to add a point
-        var marker = L.marker([48.4633, -123.33312]).addTo(mymap);
-
-        marker.bindPopup("<b>JD Home!</b><br>A stolen kiss.").openPopup();
+        
+        // This makes the last set marker pop out. This only happens once, localstorage is cleared after.
+        var lastAdded = $window.localStorage['last']; 
+        if (lastAdded){
+          $window.localStorage['last'] = "";
+          var last =  JSON.parse(lastAdded); 
+          var marker = L.marker([parseFloat(last.latitude), parseFloat(last.longitude)]).addTo(mymap);
+          marker.bindPopup("<b>"+last.user+"</b><br>"+last.message+".").openPopup();
+        }
         DataManager.viewTableData({
         "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
         "password": "fLbpuA3vTZHubZqt",
@@ -77,7 +82,7 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
 
 })
 
-.controller('formCtrl', function($scope, $routeParams, DataManager) {
+.controller('formCtrl', function($scope, $routeParams, $window, DataManager) {
   
   $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
  
@@ -111,6 +116,8 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
         .then(
           function(success){
             console.log(success);
+            $window.localStorage['last'] = JSON.stringify($scope.comment); 
+            $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
             window.location.href = "/"; 
           }, 
           function(fail){
@@ -118,7 +125,7 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
           }
         );
       
-      $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
+      
 		}
 })
 
