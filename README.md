@@ -1,5 +1,12 @@
 # Reported
 
+## Developers Experience 
+- James is a 3rd year software engineering student. He's had one coop thus far. 
+- Dana has graduated in November 2014 from University of Calgary (no coops), and has worked as a software developer in Victoria in downtown for the past year. 
+- We've both had some self-taught experience with web applications:
+  - Dana learned some AngularJS in February (free online course), has worked with Xamarin at her job in Victoria, played with Ruby on Rails in Summer 2014 and took a web development course at University of Calgary in Winter 2014. 
+  - James learned the MEAN stack as part of and outside school. 
+
 Reported is a community driven break-in and theft tracker in your area. Add reports to this map to inform others on recent events.
 
 ![alt tag](http://i.imgur.com/SY3jEdw.png)
