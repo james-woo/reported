@@ -42,6 +42,9 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
           var marker = L.marker([parseFloat(last.latitude), parseFloat(last.longitude)]).addTo(mymap);
           marker.bindPopup("<b>"+last.user+"</b><br>"+last.message+".").openPopup();
         }
+        
+        
+                    
         DataManager.viewTableData({
         "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
         "password": "fLbpuA3vTZHubZqt",
@@ -49,17 +52,27 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         }).then(function(res){          
             console.log(res.data.tableName);
             markerData = res.data.data.rows;
-
-            for (i = 0; i < markerData.length; i++) { 
+            
+            var markerClusters = L.markerClusterGroup();
+            
+            for (i = 0; i < markerData.length; i++) {
+              
               var latitude = markerData[i][7]; 
               var longitude = markerData[i][8]; 
-              myMarker = L.marker([latitude, longitude]).addTo(mymap);
+              //myMarker = L.marker([latitude, longitude]).addTo(mymap);
               
               var name = markerData[i][3]; 
               var info = markerData[i][6]; 
               var date = new Date(markerData[i][5]); 
-              myMarker.bindPopup("<b>"+info+"</b><br>By "+name+"<br><i>" + date.toDateString()+"</i>"); 
-            }
+              
+              var popup = "<b>"+info+"</b><br>By "+name+"<br><i>" + date.toDateString()+"</i>";
+             
+              var m = L.marker([latitude, longitude]).bindPopup( popup );
+             
+              markerClusters.addLayer( m );
+          }
+ 
+          mymap.addLayer( markerClusters );
              
         }, function(fail){
             console.log(fail);
