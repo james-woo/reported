@@ -1,5 +1,5 @@
 .panel.panel-warning
-  .panel-heading.text-center Recent Break-ins
+  .panel-heading.text-center Occurrences in the past 24 hours
   .panel-body
     .row(ng-repeat="breakin in recentBreakIns track by $index")
-      .col-md-12 {{breakin.key}}, {{breakin.value}}
+      .col-md-12 {{breakin.key}}, <strong>{{breakin.value}}</strong>
