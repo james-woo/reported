@@ -1,5 +1,7 @@
 var DataManager = angular.module('DataManagerServices', []);
-DataManager.factory('DataManager', ['$http',
+DataManager
+
+.factory('DataManager', ['$http',
     function($http){
         var factory = {};
 
@@ -67,11 +69,9 @@ DataManager.factory('DataManager', ['$http',
             return $http.post('http://www.mapquestapi.com/datamanager/v2/update-data?key=j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa&inFormat=json', req);
         };
 
-        factory.updateTableData = function(req){
-            return $http.post('http://www.mapquestapi.com/datamanager/v2/update-data?key=j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa&inFormat=json', req);
-        };
-
         factory.uploadTableData = function(req){
+            console.log("Uploading the following data");
+            console.log(req);
             return $http.post('http://www.mapquestapi.com/datamanager/v2/upload-data?key=j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa&inFormat=json', req);
         };
 

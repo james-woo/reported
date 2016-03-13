@@ -1,12 +1,12 @@
 form(ng-submit='submitComment()')
   div
-    label(for='name') Name:
-    input#name(type='text', ng-model='comment.name')
+    label(for='user') Name:
+    input#user(type='text', ng-model='comment.user')
   div
-    label(for='mail') E-mail:
-    input#mail(type='email', ng-model='comment.mail')
+    label(for='email') E-mail:
+    input#email(type='email', ng-model='comment.email')
   div
-    label(for='msg') Message:
-    textarea#msg(ng-model='comment.msg')
+    label(for='message') Message:
+    textarea#msg(ng-model='comment.message')
   .button
     button(type='submit') Send

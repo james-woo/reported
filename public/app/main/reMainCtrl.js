@@ -3,19 +3,6 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
         { location: 'Shelbourne Corridor', time: 'January' }
     ];
 
-    console.log(DataManager);
-
-        DataManager.viewTableData({
-        "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
-        "password": "fLbpuA3vTZHubZqt",
-        "tableName": "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points"
-        }).then(function(out){
-            console.log(out.data.tableName);
-        }, function(fail){
-            console.log(fail);
-        });
-
-
     $( document ).ready(function() {  
       var options = {
           enableHighAccuracy: true,
@@ -26,11 +13,6 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
 
       function success(pos) {
         crd = pos.coords;
-
-        console.log('Your current position is:');
-        console.log('Latitude : ' + crd.latitude);
-        console.log('Longitude: ' + crd.longitude);
-        console.log('More or less ' + crd.accuracy + ' meters.');
         
         var mymap = L.map('map', {
               layers: MQ.mapLayer(),
@@ -55,15 +37,29 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
         var marker = L.marker([48.4633, -123.33312]).addTo(mymap);
 
         marker.bindPopup("<b>JD Home!</b><br>A stolen kiss.").openPopup();
+        DataManager.viewTableData({
+        "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
+        "password": "fLbpuA3vTZHubZqt",
+        "tableName": "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points"
+        }).then(function(res){          
+            console.log(res.data.tableName);
+            markerData = res.data.data.rows;
 
+            for (i = 0; i < markerData.length; i++) { 
+              myMarker = L.marker([markerData[i][7], markerData[i][8]]).addTo(mymap);
+              myMarker.bindPopup("<b>"+markerData[i][3]+"</b><br>"+markerData[i][6]+"<br> on " + markerData[i][5]); 
+            }
+             
+        }, function(fail){
+            console.log(fail);
+        });
+        
         var popup = L.popup();
 
         function onMapClick(e) {
           console.log("You clicked the map at " + e.latlng.toString())
-          var myContent = '<form action="/submitdata?lat=&lng='+e.latlng.lng.toString()+'" method="get">\
+          var myContent = '<form action="/submitdata/'+e.latlng.lat.toString()+'/'+e.latlng.lng.toString()+'" method="get">\
              <div> Make a report here? </div>\
-              <input type="hidden" name="lat" value="'+e.latlng.lat.toString()+'"/> \
-              <input type="hidden" name="lng" value="'+e.latlng.lng.toString()+'"/> \
              <div class="button">\
               <button type="submit">Yes!</button>\
             </div>\
@@ -81,15 +77,48 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
 
 })
 
-.controller('formCtrl', function($scope, DataManager) {
+.controller('formCtrl', function($scope, $routeParams, DataManager) {
   
- $scope.comment = {name:"", mail:"", msg:"", date:""};
-    $scope.submitComment = function () {
-      $scope.comment.date = new Date().toISOString();
-      console.log($scope.comment);
-			
-			//menuFactory.getDishes().update({id:$scope.dish.id}, $scope.dish); 
-	
+  $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
+ 
+  var json = {
+     "tableName":"mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points",
+     "returnResults":true,
+     "append":true,
+     "clientId":"j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
+     "password":"fLbpuA3vTZHubZqt"
+  }
+
+  $scope.submitComment = function () {
+    
+    $scope.comment.date = new Date().toISOString();
+    $scope.comment.latitude = $routeParams.lat; 
+    $scope.comment.longitude = $routeParams.lng; 
+    
+      var stupidFormat = [
+             {"name":"user","value":$scope.comment.user},
+             {"name":"email","value":$scope.comment.email},
+             {"name":"date","value":$scope.comment.date},
+             {"name":"message","value":$scope.comment.message},
+             {"name":"latitude","value":$scope.comment.latitude},
+             {"name":"longitude","value":$scope.comment.longitude},
+             {"name":"latlong","value":"POINT (1 1)"}
+             //{"name":"latlong","value":"POINT ("+parseFloat($scope.comment.latitude)+" "+parseFloat($scope.comment.longitude)+")"}
+           ]
+      json.rows = [stupidFormat]; 
+      
+      DataManager.uploadTableData(json)
+        .then(
+          function(success){
+            console.log(success);
+            window.location.href = "/"; 
+          }, 
+          function(fail){
+            console.log(fail);
+          }
+        );
+      
+      $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
 		}
 })
 
