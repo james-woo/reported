@@ -16,11 +16,10 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
     }).then(function(res){
         markerData = res.data.data.rows;
         for (i = 0; i < markerData.length; i++) {
-            var date = new Date(markerData[i][5]);
             var info = markerData[i][6];
             var address = markerData[i][10];
             recentBreakIns.push({
-                key:date.toDateString() + ", " + address,
+                key:"Location: " + address,
                 value:"Message: " + info
             });
         }
