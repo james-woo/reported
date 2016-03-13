@@ -1,7 +1,39 @@
 angular.module('app').controller('reMainCtrl', function($scope, $window, DataManager) {
-    $scope.recentBreakIns = [
-        { location: 'Shelbourne Corridor', time: 'January' }
-    ];
+    var recentBreakIns = [];
+    var best = [];
+
+    DataManager.viewTableData({
+        "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
+        "password": "fLbpuA3vTZHubZqt",
+        "tableName": "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points"
+    }).then(function(res){
+        markerData = res.data.data.rows;
+
+        for (i = 0; i < markerData.length; i++) {
+            var latitude = markerData[i][7];
+            var longitude = markerData[i][8];
+            var date = new Date(markerData[i][5]);
+            var latlng = {
+                "lng":longitude,
+                "lat":latitude
+            };
+
+            MQ.geocode().reverse(latlng).on('success', function(e){
+                best = e.data.results[0].locations[0].street;
+                recentBreakIns.push({
+                    key:date.toDateString(),
+                    value:best
+                });
+            });
+
+
+        }
+
+    }, function(fail){
+        console.log(fail);
+    });
+
+    $scope.recentBreakIns = recentBreakIns;
 
     $( document ).ready(function() {  
       var options = {
@@ -49,8 +81,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
         "password": "fLbpuA3vTZHubZqt",
         "tableName": "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points"
-        }).then(function(res){          
-            console.log(res.data.tableName);
+        }).then(function(res){
             markerData = res.data.data.rows;
             
             var markerClusters = L.markerClusterGroup();
