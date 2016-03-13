@@ -70,7 +70,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
           var last =  JSON.parse(lastAdded); 
           var marker = L.marker([parseFloat(last.latitude), parseFloat(last.longitude)]).addTo(mymap);
           
-          var popup = '<form action="/delete/'+last.id+'" method="get"> <button type="submit">Delete Data Point</button></form><br><b>'+last.message+'</b><br>By '+last.user;
+          var popup = '<form action="/delete/'+last.id+'" method="get"> <button type="submit" class="btn btn-xs">Delete Data Point</button></form><br><b>'+last.message+'</b><br>By '+last.user;
           if (last.imageurl){
             popup = popup + '<br><img src="'+last.imageurl+'" style="width:200px;">'
           }
@@ -118,9 +118,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
           console.log("You clicked the map at " + e.latlng.toString());
           var myContent = '<form action="/submitdata/'+e.latlng.lat.toString()+'/'+e.latlng.lng.toString()+'" method="get">\
              <div> Make a report here? </div>\
-             <div class="button">\
-              <button type="submit">Yes!</button>\
-            </div>\
+              <button class="btn btn-xs" type="submit">Yes!</button>\
           </form>'; 
           popup
             .setLatLng(e.latlng)
