@@ -51,8 +51,14 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
             markerData = res.data.data.rows;
 
             for (i = 0; i < markerData.length; i++) { 
-              myMarker = L.marker([markerData[i][7], markerData[i][8]]).addTo(mymap);
-              myMarker.bindPopup("<b>"+markerData[i][3]+"</b><br>"+markerData[i][6]+"<br> on " + markerData[i][5]); 
+              var latitude = markerData[i][7]; 
+              var longitude = markerData[i][8]; 
+              myMarker = L.marker([latitude, longitude]).addTo(mymap);
+              
+              var name = markerData[i][3]; 
+              var info = markerData[i][6]; 
+              var date = new Date(markerData[i][5]); 
+              myMarker.bindPopup("<b>"+info+"</b><br>By "+name+"<br><i>" + date.toDateString()+"</i>"); 
             }
              
         }, function(fail){
