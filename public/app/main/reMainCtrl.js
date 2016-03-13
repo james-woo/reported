@@ -72,11 +72,15 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
           $window.localStorage['last'] = "";
           var last =  JSON.parse(lastAdded); 
           var marker = L.marker([parseFloat(last.latitude), parseFloat(last.longitude)]).addTo(mymap);
-          marker.bindPopup("<b>"+last.user+"</b><br>"+last.message+".").openPopup();
+          
+          var popup = '<form action="/delete/'+last.id+'" method="get"> <button type="submit">Delete Data Point</button></form><br><b>'+last.message+'</b><br>By '+last.user;
+          if (last.imageurl){
+            popup = popup + '<br><img src="'+last.imageurl+'" style="width:200px;">'
+          }
+          
+          marker.bindPopup(popup).openPopup();
         }
-        
-        
-                    
+                
         DataManager.viewTableData({
         "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
         "password": "fLbpuA3vTZHubZqt",
@@ -95,9 +99,11 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
               var name = markerData[i][3]; 
               var info = markerData[i][6]; 
               var date = new Date(markerData[i][5]); 
-              
+              var photoUrl = markerData[i][11];
               var popup = "<b>"+info+"</b><br>By "+name+"<br><i>" + date.toDateString()+"</i>";
-             
+              if (photoUrl){
+                popup = popup + '<br><img src="'+photoUrl+'" style="width:200px;">'
+              }                
               var m = L.marker([latitude, longitude]).bindPopup( popup );
              
               markerClusters.addLayer( m );
@@ -134,7 +140,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
 
 .controller('formCtrl', function($scope, $routeParams, $window, DataManager) {
   
-    $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
+    $scope.comment = {user:"", email:"", message:"", imageurl:"", date:"", latitude:"", longitude:""};
 
     var json = {
      "tableName":"mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points",
@@ -156,6 +162,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
      {"name":"message","value":$scope.comment.message},
      {"name":"latitude","value":$scope.comment.latitude},
      {"name":"longitude","value":$scope.comment.longitude},
+     {"name":"imageurl","value":$scope.comment.imageurl},
      {"name":"latlong","value":"POINT(" + parseFloat($scope.comment.longitude) + " " + parseFloat($scope.comment.latitude) +")"}
     ];
     json.rows = [request];
@@ -164,6 +171,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
       .then(
         function(success){
           console.log(success);
+          $scope.comment.id = success.data.data.rows[0][0];  
           $window.localStorage['last'] = JSON.stringify($scope.comment);
           $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
           window.location.href = "/";
@@ -175,6 +183,26 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
   }
 })
 
+.controller('deleteCtrl', function($scope, $routeParams, $window, DataManager) {
+  
+     var json = {
+     "tableName":"mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points",
+     "clientId":"j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
+     "password":"fLbpuA3vTZHubZqt", 
+     "mqap_id":$routeParams.id
+    };
+
+    DataManager.deleteTableData(json)
+      .then(
+        function(success){
+          window.location.href = "/";
+        },
+        function(fail){
+          window.location.href = "/";
+        }
+      );
+  
+})
 ;
 
 /*
