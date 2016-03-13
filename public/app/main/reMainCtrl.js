@@ -1,7 +1,20 @@
-angular.module('app').controller('reMainCtrl', function($scope, $window) {
+angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
     $scope.recentBreakIns = [
         { location: 'Shelbourne Corridor', time: 'January' }
-    ]
+    ];
+
+    console.log(DataManager);
+
+        DataManager.viewTableData({
+        "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
+        "password": "fLbpuA3vTZHubZqt",
+        "tableName": "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points"
+        }).then(function(out){
+            console.log(out.data.tableName);
+        }, function(fail){
+            console.log(fail);
+        });
+
 
     $( document ).ready(function() {  
       var options = {
@@ -54,6 +67,8 @@ angular.module('app').controller('reMainCtrl', function($scope, $window) {
         mymap.on('click', onMapClick);
       };
     });
+
+
 });
 
 /*
