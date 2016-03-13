@@ -57,15 +57,8 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
               }
           }]
       });
-      var markersLayer = new L.LayerGroup();
-      var controlSearch = new L.Control.Search({
-          layer: markersLayer,
-          textPlaceholder: 'Search...',
-          markerIcon: new L.Icon.Default(),
-          initial: false,
-          position:'topright'
-      });
 
+     
       var options = {
           enableHighAccuracy: true,
           timeout: 5000,
@@ -86,8 +79,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         stateChangingButton.addTo( mymap );
         myLat = crd.latitude;
         myLng = crd.longitude;
-        mymap.addLayer( markersLayer );
-        mymap.addControl( controlSearch );
+        setSearch(mymap);
       };
 
       function error(err) {
@@ -98,9 +90,48 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
           zoom: 12
           });
         setMarkers(mymap);
-        mymap.addLayer( markersLayer );
         mymap.addControl( controlSearch );
       };
+     
+     var setSearch = function(mymap){
+        mymap.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	//base layer
+
+        var geocoder = new google.maps.Geocoder();
+
+        function googleGeocoding(text, callResponse)
+        {
+          geocoder.geocode({address: text}, callResponse);
+        }
+
+        function formatJSON(rawjson)
+        {
+          var json = {},
+            key, loc, disp = [];
+
+          for(var i in rawjson)
+          {
+            key = rawjson[i].formatted_address;
+            
+            loc = L.latLng( rawjson[i].geometry.location.lat(), rawjson[i].geometry.location.lng() );
+            
+            json[ key ]= loc;	//key,value format
+          }
+
+          return json;
+        }
+
+        var controlSearch = new L.Control.Search({
+            sourceData: googleGeocoding,
+            formatData: formatJSON,
+            autoType: false,
+            minLength: 2,
+            textPlaceholder: 'Search...',
+                markerIcon: new L.Icon.Default(),
+                initial: false,
+                position:'topright'
+          });  
+        mymap.addControl( controlSearch );
+     }
      
       var setMarkers = function(mymap){
         
