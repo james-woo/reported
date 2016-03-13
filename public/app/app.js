@@ -5,5 +5,5 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', { templateUrl: '/partials/main', controller: 'reMainCtrl'})
         .when('/submitdata/:lat/:lng', { templateUrl: '/partials/form', controller: 'formCtrl'})
-        .when('/delete/:id', { templateUrl: '/partials/form', controller: 'deleteCtrl'});
+        .when('/delete/:id', { templateUrl: '/partials/loading', controller: 'deleteCtrl'});
 });
