@@ -31,14 +31,9 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
     $scope.recentBreakIns = recentBreakIns;
 
     $( document ).ready(function() {
-
       var mymap;
       var myLat;
       var myLng;
-      var searchIcon = L.icon({
-        iconUrl: 'https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-128.png',
-        iconSize: [38, 95]
-      });
 
       var stateChangingButton = L.easyButton({
           states: [{
@@ -50,7 +45,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
               }
           }, {
               stateName: 'zoom-out',
-              icon:      'fa-dot-circle-o',
+              icon:      'fa-crosshairs',
               onClick: function(btn, map) {
                   map.setView([myLat,myLng],5);
                   btn.state('zoom-out');
@@ -93,7 +88,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         mymap.addControl( controlSearch );
       };
      
-     var setSearch = function(mymap){
+      var setSearch = function(mymap){
         mymap.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	//base layer
 
         var geocoder = new google.maps.Geocoder();
@@ -111,9 +106,9 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
           for(var i in rawjson)
           {
             key = rawjson[i].formatted_address;
-            
+
             loc = L.latLng( rawjson[i].geometry.location.lat(), rawjson[i].geometry.location.lng() );
-            
+
             json[ key ]= loc;	//key,value format
           }
 
@@ -129,24 +124,21 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
                 markerIcon: new L.Icon.Default(),
                 initial: false,
                 position:'topright'
-          });  
+          });
         mymap.addControl( controlSearch );
-     }
+      };
      
       var setMarkers = function(mymap){
-        
         // This makes the last set marker pop out. This only happens once, localstorage is cleared after.
         var lastAdded = $window.localStorage['last']; 
         if (lastAdded){
           $window.localStorage['last'] = "";
           var last =  JSON.parse(lastAdded); 
           var marker = L.marker([parseFloat(last.latitude), parseFloat(last.longitude)]).addTo(mymap);
-          
           var popup = '<form action="/delete/'+last.id+'" method="get"> <button type="submit" class="btn btn-xs btn-block">Delete Data Point</button></form><br><b>'+last.message+'</b><br>By '+last.user;
           if (last.imageurl){
             popup = popup + '<br><img src="'+last.imageurl+'" style="width:200px;">'
           }
-          
           marker.bindPopup(popup).openPopup();
         }
                 
@@ -156,14 +148,10 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         "tableName": table
         }).then(function(res){
             markerData = res.data.data.rows;
-            
             var markerClusters = L.markerClusterGroup();
-            
             for (i = 0; i < markerData.length; i++) {
-              
               var latitude = markerData[i][7]; 
-              var longitude = markerData[i][8]; 
-              //myMarker = L.marker([latitude, longitude]).addTo(mymap);
+              var longitude = markerData[i][8];
               
               var name = markerData[i][3]; 
               var info = markerData[i][6]; 
@@ -177,9 +165,7 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
              
               markerClusters.addLayer( m );
           }
- 
           mymap.addLayer( markerClusters );
-             
         }, function(fail){
             console.log(fail);
         });
@@ -197,12 +183,9 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
             .setContent(myContent)
             .openOn(mymap);
         }
-        
         mymap.on('click', onMapClick);
       };
     });
-
-
 });
 
 /*
