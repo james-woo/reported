@@ -5,9 +5,13 @@ Reported is a community driven break-in and theft tracker in your area. Add repo
 ![alt tag](http://i.imgur.com/SY3jEdw.png)
 
 ## Usage
+When you first load the website, it will ask you for your location. If you click "Allow", the map will pan to your area. 
+
 To use this application, click a point on the map where you would like to create a report. Add your name, email, and a short description of the incident. If you'd like, you can add an url to a photo for a better description.
 
-Your data point will be displayed on the map for all others to see. Once the page reloads, your new data point will be displayed. If you'd like, you can take this moment to delete it.
+Your data point will be displayed on the map for all others to see. Once the page reloads, your new data point will be displayed and the map will pan to it. If you'd like, you can take this moment to delete it.
+
+Zoom in to view datapoints if they are shown in a cluster. Click on a datapoint to see information about it. 
 
 ## Future implementations 
  - User accounts. Users would be able to view all their own points, delete and edit them. 
