@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e66d377-bc31-499c-95b7-d1933db7dffb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/app/main/reMainCtrl.js" afterPath="$PROJECT_DIR$/public/app/main/reMainCtrl.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reported.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,21 +23,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="reMainCtrl.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="reMainCtrl.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/app/main/reMainCtrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7490637">
-              <caret line="40" column="6" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="6" />
-              <folding />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+              <folding>
+                <marker date="1457833782000" expanded="true" signature="2009:2353" placeholder="..." />
+                <marker date="1457833782000" expanded="true" signature="2263:2334" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="reMainServices.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="reMainServices.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/app/main/reMainServices.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.8876405">
+              <caret line="79" column="3" selection-start-line="79" selection-start-column="3" selection-end-line="79" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -78,7 +81,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1457833782000" expanded="true" signature="147:285" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -411,6 +416,9 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="1e66d377-bc31-499c-95b7-d1933db7dffb" name="Default" comment="" />
@@ -455,7 +463,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1457833782000" expanded="true" signature="2009:2353" placeholder="..." />
+            <marker date="1457833782000" expanded="true" signature="2263:2334" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -487,7 +498,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="75" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="75" />
-          <folding />
+          <folding>
+            <marker date="1457833782000" expanded="true" signature="147:285" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -585,19 +598,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/app/main/reMainServices.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/app/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1457833782000" expanded="true" signature="147:285" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -611,8 +618,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/app/main/reMainCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7490637">
-          <caret line="40" column="6" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+          <folding>
+            <marker date="1457833782000" expanded="true" signature="2009:2353" placeholder="..." />
+            <marker date="1457833782000" expanded="true" signature="2263:2334" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/app/main/reMainServices.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8876405">
+          <caret line="79" column="3" selection-start-line="79" selection-start-column="3" selection-end-line="79" selection-end-column="3" />
           <folding />
         </state>
       </provider>
