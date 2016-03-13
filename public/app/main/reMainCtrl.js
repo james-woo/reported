@@ -15,12 +15,12 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         crd = pos.coords;
         
         var mymap = L.map('map', {
-              layers: MQ.mapLayer(),
-              center: [crd.latitude, crd.longitude ],
-              zoom: 12
-            });
-            setMarkers(mymap); 
-        };
+          layers: MQ.mapLayer(),
+          center: [crd.latitude, crd.longitude ],
+          zoom: 12
+        });
+        setMarkers(mymap);
+      };
 
       function error(err) {
         console.warn('ERROR(' + err.code + '): ' + err.message);
