@@ -35,6 +35,10 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
       var mymap;
       var myLat;
       var myLng;
+      var searchIcon = L.icon({
+        iconUrl: 'https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-128.png',
+        iconSize: [38, 95]
+      });
 
       var stateChangingButton = L.easyButton({
           states: [{
@@ -52,6 +56,14 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
                   btn.state('zoom-out');
               }
           }]
+      });
+      var markersLayer = new L.LayerGroup();
+      var controlSearch = new L.Control.Search({
+          layer: markersLayer,
+          textPlaceholder: 'Search...',
+          markerIcon: new L.Icon.Default(),
+          initial: false,
+          position:'topright'
       });
 
       var options = {
@@ -74,6 +86,8 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         stateChangingButton.addTo( mymap );
         myLat = crd.latitude;
         myLng = crd.longitude;
+        mymap.addLayer( markersLayer );
+        mymap.addControl( controlSearch );
       };
 
       function error(err) {
@@ -84,6 +98,8 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
           zoom: 12
           });
         setMarkers(mymap);
+        mymap.addLayer( markersLayer );
+        mymap.addControl( controlSearch );
       };
      
       var setMarkers = function(mymap){
