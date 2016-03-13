@@ -59,17 +59,41 @@ angular.module('app').controller('reMainCtrl', function($scope, DataManager) {
         var popup = L.popup();
 
         function onMapClick(e) {
+          console.log("You clicked the map at " + e.latlng.toString())
+          var myContent = '<form action="/submitdata?lat=&lng='+e.latlng.lng.toString()+'" method="get">\
+             <div> Make a report here? </div>\
+              <input type="hidden" name="lat" value="'+e.latlng.lat.toString()+'"/> \
+              <input type="hidden" name="lng" value="'+e.latlng.lng.toString()+'"/> \
+             <div class="button">\
+              <button type="submit">Yes!</button>\
+            </div>\
+          </form>'; 
           popup
             .setLatLng(e.latlng)
-            .setContent("You clicked the map at " + e.latlng.toString())
+            .setContent(myContent)
             .openOn(mymap);
         }
+        
         mymap.on('click', onMapClick);
       };
     });
 
 
-});
+})
+
+.controller('formCtrl', function($scope, DataManager) {
+  
+ $scope.comment = {name:"", mail:"", msg:"", date:""};
+    $scope.submitComment = function () {
+      $scope.comment.date = new Date().toISOString();
+      console.log($scope.comment);
+			
+			//menuFactory.getDishes().update({id:$scope.dish.id}, $scope.dish); 
+	
+		}
+})
+
+;
 
 /*
 // How to add a circle and a polygon
