@@ -1,32 +1,29 @@
 angular.module('app').controller('reMainCtrl', function($scope, $window, DataManager) {
     var recentBreakIns = [];
-    var best = [];
+    var table = "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points";
+    var clientId = "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa";
+    var password = "fLbpuA3vTZHubZqt";
+    var d = new Date();
+    d.setDate(d.getDate());
+    d = d.toISOString().slice(0,10);
 
     DataManager.viewTableData({
-        "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
-        "password": "fLbpuA3vTZHubZqt",
-        "tableName": "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points"
+        "clientId": clientId,
+        "password": password,
+        "tableName": table,
+        "extraCriteria": "UPPER(\"date\"::text) LIKE ?",
+        "parameters": ["%" + d + "%"]
     }).then(function(res){
         markerData = res.data.data.rows;
 
         for (i = 0; i < markerData.length; i++) {
-            var latitude = markerData[i][7];
-            var longitude = markerData[i][8];
             var date = new Date(markerData[i][5]);
-            var latlng = {
-                "lng":longitude,
-                "lat":latitude
-            };
-
-            MQ.geocode().reverse(latlng).on('success', function(e){
-                best = e.data.results[0].locations[0].street;
-                recentBreakIns.push({
-                    key:date.toDateString(),
-                    value:best
-                });
+            var info = markerData[i][6];
+            var address = markerData[i][10];
+            recentBreakIns.push({
+                key:date.toDateString(),
+                value:address + ", Message: " + info
             });
-
-
         }
 
     }, function(fail){
@@ -78,9 +75,9 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
         
                     
         DataManager.viewTableData({
-        "clientId": "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
-        "password": "fLbpuA3vTZHubZqt",
-        "tableName": "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points"
+        "clientId": clientId,
+        "password": password,
+        "tableName": table
         }).then(function(res){
             markerData = res.data.data.rows;
             
@@ -133,15 +130,18 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
 })
 
 .controller('formCtrl', function($scope, $routeParams, $window, DataManager) {
+    var table = "mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points";
+    var clientId = "j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa";
+    var password = "fLbpuA3vTZHubZqt";
   
     $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
 
     var json = {
-     "tableName":"mqap.j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa_reported_points",
+     "tableName":table,
      "returnResults":true,
      "append":true,
-     "clientId":"j0sptDnFXIijUg7JZ3r0Rr6fJUuuoAVa",
-     "password":"fLbpuA3vTZHubZqt"
+     "clientId":clientId,
+     "password":password
     };
 
     $scope.submitComment = function () {
@@ -160,22 +160,28 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
     ];
     json.rows = [request];
 
-    DataManager.uploadTableData(json)
-      .then(
-        function(success){
-          console.log(success);
-          $window.localStorage['last'] = JSON.stringify($scope.comment);
-          $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
-          window.location.href = "/";
-        },
-        function(fail){
-          console.log(fail);
-        }
-      );
+    var latlng = {
+        "lng":$scope.comment.longitude,
+        "lat":$scope.comment.latitude
+    };
+    MQ.geocode().reverse(latlng).on('success', function(e){
+        var best = e.data.results[0].locations[0].street;
+        json.rows[0].push({"name":"address","value":best});
+        DataManager.uploadTableData(json)
+            .then(
+                function(success){
+                    console.log(success);
+                    $window.localStorage['last'] = JSON.stringify($scope.comment);
+                    $scope.comment = {user:"", email:"", message:"", date:"", latitude:"", longitude:""};
+                    window.location.href = "/";
+                },
+                function(fail){
+                    console.log(fail);
+                }
+            );
+    });
   }
-})
-
-;
+});
 
 /*
 // How to add a circle and a polygon
