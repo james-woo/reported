@@ -17,6 +17,7 @@
     "express": "^4.13.4",
     "geoip-lite": "^1.1.6",
     "jade": "^1.11.0",
+    "leaflet-easybutton": "^1.2.0",
     "mongoose": "^4.4.6",
     "morgan": "^1.7.0",
     "stylus": "^0.54.0"

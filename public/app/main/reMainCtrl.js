@@ -30,28 +30,55 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
 
     $scope.recentBreakIns = recentBreakIns;
 
-    $( document ).ready(function() {  
+    $( document ).ready(function() {
+
+      var mymap;
+      var myLat;
+      var myLng;
+
+      var stateChangingButton = L.easyButton({
+          states: [{
+              stateName: 'zoom-in',   // name the state
+              icon:      'fa-crosshairs',          // and define its properties
+              onClick: function(btn, map) {  // and its callback
+                  map.setView([myLat,myLng],18);
+                  btn.state('zoom-in'); // change state on click!
+              }
+          }, {
+              stateName: 'zoom-out',
+              icon:      'fa-dot-circle-o',
+              onClick: function(btn, map) {
+                  map.setView([myLat,myLng],5);
+                  btn.state('zoom-out');
+              }
+          }]
+      });
+
       var options = {
           enableHighAccuracy: true,
           timeout: 5000,
           maximumAge: 0
-      };      
+      };
+
       navigator.geolocation.getCurrentPosition(success, error, options);
 
       function success(pos) {
         crd = pos.coords;
         
-        var mymap = L.map('map', {
+        mymap = L.map('map', {
           layers: MQ.mapLayer(),
           center: [crd.latitude, crd.longitude ],
           zoom: 12
         });
         setMarkers(mymap);
+        stateChangingButton.addTo( mymap );
+        myLat = crd.latitude;
+        myLng = crd.longitude;
       };
 
       function error(err) {
         console.warn('ERROR(' + err.code + '): ' + err.message);
-        var mymap = L.map('map', {
+        mymap = L.map('map', {
           layers: MQ.mapLayer(),
           center: [ 48.4648167, -123.3140889 ],
           zoom: 12
