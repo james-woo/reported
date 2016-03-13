@@ -100,17 +100,16 @@ angular.module('app').controller('reMainCtrl', function($scope, $window, DataMan
     $scope.comment.latitude = $routeParams.lat; 
     $scope.comment.longitude = $routeParams.lng; 
     
-      var stupidFormat = [
+      var request = [
              {"name":"user","value":$scope.comment.user},
              {"name":"email","value":$scope.comment.email},
              {"name":"date","value":$scope.comment.date},
              {"name":"message","value":$scope.comment.message},
              {"name":"latitude","value":$scope.comment.latitude},
              {"name":"longitude","value":$scope.comment.longitude},
-             {"name":"latlong","value":"POINT (1 1)"}
-             //{"name":"latlong","value":"POINT ("+parseFloat($scope.comment.latitude)+" "+parseFloat($scope.comment.longitude)+")"}
+             {"name":"latlong","value":"POINT(" + parseFloat($scope.comment.longitude) + " " + parseFloat($scope.comment.latitude) +")"}
            ]
-      json.rows = [stupidFormat]; 
+      json.rows = [request];
       
       DataManager.uploadTableData(json)
         .then(
